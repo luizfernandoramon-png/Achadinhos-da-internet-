@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin | Achadinhos da Internet 🚀</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#090919] text-white min-h-screen font-sans p-4 md:p-8">
+
+    <!-- TELA DE LOGIN POR SENHA -->
+    <div id="login-screen" class="fixed inset-0 bg-[#090919] z-50 flex items-center justify-center p-4">
+        <div class="bg-[#121225] border border-[#2A2A4A] rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#00FFFF] to-[#FF00FF] mx-auto flex items-center justify-center text-black font-bold mb-4 text-xl">
+                🔒
+            </div>
+            <h2 class="text-lg font-bold text-[#00FFFF]">Acesso Restrito</h2>
+            <p class="text-xs text-gray-400 mt-1 mb-4">Digite a senha para acessar o painel admin</p>
+            
+            <div class="space-y-3">
+                <input type="password" id="input-pass" placeholder="Sua Senha" 
+                       class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-center text-white focus:outline-none focus:border-[#00FFFF]">
+                <button type="button" id="btn-login" class="w-full bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider hover:opacity-90 transition-all cursor-pointer">
+                    Entrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO DO PAINEL ADMIN -->
+    <div id="admin-content" class="max-w-6xl mx-auto space-y-6 hidden">
+        
+        <!-- CABEÇALHO ADMIN -->
+        <header class="flex items-center justify-between border-b border-[#2A2A4A] pb-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#00FFFF] to-[#FF00FF] flex items-center justify-center text-black font-bold shadow-lg">
+                    🛡️
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-[#00FFFF]">Painel Administrativo</h1>
+                    <p class="text-xs text-gray-400">Achadinhos da Internet 🚀</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-logout" class="text-xs bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 px-3 py-2 rounded-xl transition-all cursor-pointer">
+                    Sair
+                </button>
+                <a href="index.html" target="_blank" class="text-xs bg-[#121225] border border-[#2A2A4A] hover:border-[#00FFFF] text-gray-300 px-4 py-2 rounded-xl flex items-center gap-2 transition-all">
+                    Ver Site ↗
+                </a>
+            </div>
+        </header>
+
+        <!-- CARDS DE MÉTRICAS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-[#121225] border border-[#2A2A4A] rounded-2xl p-4 flex items-center justify-between shadow-xl">
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Acessos no App</p>
+                    <h3 id="stat-views" class="text-2xl font-black text-[#00FFFF] mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-[#00FFFF]/10 rounded-xl flex items-center justify-center text-[#00FFFF] text-xl">
+                    👁️
+                </div>
+            </div>
+
+            <div class="bg-[#121225] border border-[#2A2A4A] rounded-2xl p-4 flex items-center justify-between shadow-xl">
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Total de Cliques</p>
+                    <h3 id="stat-clicks" class="text-2xl font-black text-[#FF00FF] mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-[#FF00FF]/10 rounded-xl flex items-center justify-center text-[#FF00FF] text-xl">
+                    👆
+                </div>
+            </div>
+
+            <div class="bg-[#121225] border border-[#2A2A4A] rounded-2xl p-4 flex items-center justify-between shadow-xl">
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Produtos Ativos</p>
+                    <h3 id="total-count" class="text-2xl font-black text-white mt-1">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white text-xl">
+                    📦
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <div class="lg:col-span-5 bg-[#121225] border border-[#2A2A4A] rounded-2xl p-6 shadow-2xl h-fit">
+                <h2 class="text-base font-bold text-white mb-4 flex items-center gap-2 border-b border-[#2A2A4A] pb-3">
+                    ➕ Cadastrar Novo Produto
+                </h2>
+                
+                <form id="addForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">Título do Produto</label>
+                        <input type="text" id="title" required placeholder="Ex: Fone de Ouvido Bluetooth" 
+                               class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">Preço (R$)</label>
+                            <input type="number" step="0.01" id="price" required placeholder="49.90" 
+                                   class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">Categoria</label>
+                            <select id="category" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                                <option value="tecnologia">💻 Tecnologia</option>
+                                <option value="casa">🏠 Casa</option>
+                                <option value="roupas">👕 Roupas</option>
+                                <option value="tenis">👟 Tênis</option>
+                                <option value="fones">🎧 Fones de Ouvido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">URL da Imagem</label>
+                        <input type="url" id="image" required placeholder="https://imagem.com/produto.jpg" 
+                               class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1">Link de Afiliado</label>
+                        <input type="url" id="link" required placeholder="https://shope.ee/..." 
+                               class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                    </div>
+
+                    <button type="submit" id="btnSubmit" class="w-full bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-black font-extrabold py-3.5 rounded-xl text-xs uppercase tracking-wider mt-2 hover:opacity-90 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                        🚀 Publicar Oferta
+                    </button>
+                </form>
+            </div>
+
+            <!-- GERENCIADOR DE PRODUTOS -->
+            <div class="lg:col-span-7 bg-[#121225] border border-[#2A2A4A] rounded-2xl p-6 shadow-2xl">
+                <div class="flex items-center justify-between border-b border-[#2A2A4A] pb-3 mb-4">
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        📋 Produtos No Site
+                    </h2>
+                    <button id="btn-reload" class="text-xs text-[#00FFFF] hover:underline flex items-center gap-1 cursor-pointer">
+                        🔄 Atualizar
+                    </button>
+                </div>
+
+                <div id="admin-products-list" class="space-y-3 max-h-[500px] overflow-y-auto pr-2">
+                    <p class="text-xs text-gray-500 text-center py-8">Carregando dados...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO -->
+    <div id="editModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#121225] border border-[#2A2A4A] rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <div class="flex items-center justify-between mb-4 border-b border-[#2A2A4A] pb-3">
+                <h3 class="text-sm font-bold text-[#00FFFF] flex items-center gap-2">
+                    ✏️ Editar Produto
+                </h3>
+                <button id="btn-close-x" class="text-gray-400 hover:text-white cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <form id="editForm" class="space-y-3">
+                <input type="hidden" id="edit-id">
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-300 uppercase mb-1">Título</label>
+                    <input type="text" id="edit-title" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-300 uppercase mb-1">Preço (R$)</label>
+                        <input type="number" step="0.01" id="edit-price" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-300 uppercase mb-1">Categoria</label>
+                        <select id="edit-category" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                            <option value="tecnologia">💻 Tecnologia</option>
+                            <option value="casa">🏠 Casa</option>
+                            <option value="roupas">👕 Roupas</option>
+                            <option value="tenis">👟 Tênis</option>
+                            <option value="fones">🎧 Fones de Ouvido</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-300 uppercase mb-1">URL da Imagem</label>
+                    <input type="url" id="edit-image" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-300 uppercase mb-1">Link de Afiliado</label>
+                    <input type="url" id="edit-link" required class="w-full bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-[#00FFFF]">
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button type="button" id="btn-close-cancel" class="w-1/2 bg-[#1B1B3A] text-gray-300 py-2.5 rounded-xl text-xs font-bold uppercase hover:bg-[#2A2A4A] cursor-pointer">Cancelar</button>
+                    <button type="submit" id="btnSaveEdit" class="w-1/2 bg-gradient-to-r from-[#00FFFF] to-[#FF00FF] text-black py-2.5 rounded-xl text-xs font-extrabold uppercase hover:opacity-90 cursor-pointer">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT NATIVO E INDEPENDENTE -->
+    <script>
+        const SENHA_ADMIN = "Er336699+";
+        const REST_URL = "https://heyidllnarvytnhglywl.supabase.co/rest/v1";
+        const API_KEY = "sb_publishable_qAl-XYoSnxlWQ29LIvBiYw_zBizPZEc";
+        
+        let listaProdutos = [];
+
+        // CABEÇALHOS DAS REQUISIÇÕES HTTP
+        const headers = {
+            "apikey": API_KEY,
+            "Authorization": "Bearer " + API_KEY,
+            "Content-Type": "application/json",
+            "Prefer": "return=representation"
+        };
+
+        // LOGIN INSTANTÂNEO
+        function validarEntrada() {
+            const senhaVal = document.getElementById('input-pass').value;
+            if (senhaVal === SENHA_ADMIN) {
+                localStorage.setItem('admin_sessao_ok', 'true');
+                exibirPainel();
+            } else {
+                alert("Senha incorreta!");
+            }
+        }
+
+        document.getElementById('btn-login').onclick = validarEntrada;
+        document.getElementById('input-pass').onkeydown = function(e) {
+            if (e.key === 'Enter') validarEntrada();
+        };
+
+        function exibirPainel() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+            carregarTudo();
+        }
+
+        document.getElementById('btn-logout').onclick = function() {
+            localStorage.removeItem('admin_sessao_ok');
+            location.reload();
+        };
+
+        document.getElementById('btn-reload').onclick = function() {
+            carregarTudo();
+        };
+
+        function fecharModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+        document.getElementById('btn-close-x').onclick = fecharModal;
+        document.getElementById('btn-close-cancel').onclick = fecharModal;
+
+        // BUSCAR DADOS DIRETO DA API DO SUPABASE (VIA FETCH NATIVO)
+        async function carregarTudo() {
+            // Métricas
+            try {
+                const resM = await fetch(`${REST_URL}/metricas?id=eq.1&select=views`, { headers });
+                const dataM = await resM.json();
+                if (dataM && dataM.length > 0) {
+                    document.getElementById('stat-views').innerText = dataM[0].views || 0;
+                }
+            } catch (e) {
+                console.error("Erro métricas:", e);
+            }
+
+            // Produtos
+            const listEl = document.getElementById('admin-products-list');
+            try {
+                const resP = await fetch(`${REST_URL}/produtos?select=*&order=id.desc`, { headers });
+                listaProdutos = await resP.json();
+
+                if (!Array.isArray(listaProdutos)) {
+                    listEl.innerHTML = `<p class="text-xs text-red-400 text-center py-4">Erro ao carregar dados do banco.</p>`;
+                    return;
+                }
+
+                document.getElementById('total-count').innerText = listaProdutos.length;
+                const totalClicks = listaProdutos.reduce((acc, curr) => acc + (curr.clicks || 0), 0);
+                document.getElementById('stat-clicks').innerText = totalClicks;
+
+                if (listaProdutos.length === 0) {
+                    listEl.innerHTML = `<p class="text-xs text-gray-500 text-center py-8">Nenhum produto cadastrado.</p>`;
+                    return;
+                }
+
+                listEl.innerHTML = '';
+                listaProdutos.forEach(p => {
+                    const catText = (p.platform || p.category || 'Oferta').toUpperCase();
+                    const itemClicks = p.clicks || 0;
+
+                    const itemHtml = `
+                        <div class="bg-[#1B1B3A] border border-[#2A2A4A] rounded-xl p-3 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/50'" class="w-12 h-12 rounded-lg object-cover shrink-0 bg-[#090919]">
+                                <div class="truncate">
+                                    <h3 class="text-xs font-semibold text-gray-200 truncate">${p.title}</h3>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-[10px] font-bold text-[#00FFFF]">R$ ${Number(p.price).toFixed(2).replace('.', ',')}</span>
+                                        <span class="text-[9px] bg-[#121225] text-gray-400 px-2 py-0.5 rounded-md border border-[#2A2A4A] uppercase">${catText}</span>
+                                        <span class="text-[9px] bg-[#FF00FF]/10 text-[#FF00FF] font-bold px-2 py-0.5 rounded-md border border-[#FF00FF]/20 flex items-center gap-1">
+                                            👆 ${itemClicks} cliques
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-1 shrink-0">
+                                <button onclick="prepararEdicao(${p.id})" class="text-[#00FFFF] hover:text-white bg-[#00FFFF]/10 p-2.5 rounded-lg cursor-pointer">
+                                    ✏️
+                                </button>
+                                <button onclick="deletarProduto(${p.id})" class="text-red-400 hover:text-red-300 bg-red-500/10 p-2.5 rounded-lg cursor-pointer">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    listEl.innerHTML += itemHtml;
+                });
+
+            } catch (err) {
+                listEl.innerHTML = `<p class="text-xs text-red-400 text-center py-4">Erro de conexão: ${err.message}</p>`;
+            }
+        }
+
+        window.prepararEdicao = function(id) {
+            const p = listaProdutos.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('edit-id').value = p.id;
+            document.getElementById('edit-title').value = p.title;
+            document.getElementById('edit-price').value = p.price;
+            document.getElementById('edit-category').value = p.platform || p.category || 'tecnologia';
+            document.getElementById('edit-image').value = p.image;
+            document.getElementById('edit-link').value = p.link;
+
+            document.getElementById('editModal').classList.remove('hidden');
+        };
+
+        window.deletarProduto = async function(id) {
+            if (!confirm("Excluir este produto?")) return;
+            await fetch(`${REST_URL}/produtos?id=eq.${id}`, { method: 'DELETE', headers });
+            carregarTudo();
+        };
+
+        // SUBMIT EDIÇÃO
+        document.getElementById('editForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('edit-id').value;
+
+            const bodyData = {
+                title: document.getElementById('edit-title').value,
+                price: parseFloat(document.getElementById('edit-price').value),
+                platform: document.getElementById('edit-category').value,
+                image: document.getElementById('edit-image').value,
+                link: document.getElementById('edit-link').value
+            };
+
+            await fetch(`${REST_URL}/produtos?id=eq.${id}`, {
+                method: 'PATCH',
+                headers,
+                body: JSON.stringify(bodyData)
+            });
+
+            fecharModal();
+            carregarTudo();
+        };
+
+        // SUBMIT NOVO PRODUTO
+        document.getElementById('addForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSubmit');
+            btn.disabled = true;
+
+            const bodyData = [{
+                title: document.getElementById('title').value,
+                price: parseFloat(document.getElementById('price').value),
+                platform: document.getElementById('category').value,
+                image: document.getElementById('image').value,
+                link: document.getElementById('link').value,
+                clicks: 0
+            }];
+
+            await fetch(`${REST_URL}/produtos`, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify(bodyData)
+            });
+
+            e.target.reset();
+            btn.disabled = false;
+            carregarTudo();
+        };
+
+        // AUTO-LOGIN
+        if (localStorage.getItem('admin_sessao_ok') === 'true') {
+            exibirPainel();
+        }
+    </script>
+</body>
+</html>
